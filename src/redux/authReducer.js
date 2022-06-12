@@ -1,0 +1,106 @@
+import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
+import { localStoreService } from "../service/localStoreService";
+import { authService } from "../service/authService";
+import { setSuccessMessage, setErrorMessage } from "./messageReducer";
+export const login = createAsyncThunk(
+    "auth/login",
+    async (loginData, thunkAPI) => {
+        try {
+            const res = await authService.login(loginData);
+            const data = res.data.content;
+            localStoreService.setUserLocal(data);
+            thunkAPI.dispatch(setSuccessMessage("Login successfully!"));
+            return { user: data };
+        } catch (err) {
+            const message = err.response.data.content;
+            thunkAPI.dispatch(setErrorMessage(message));
+            return thunkAPI.rejectWithValue();
+        }
+    }
+);
+export const register = createAsyncThunk(
+    "auth/register",
+    async (registerData, thunkAPI) => {
+        try {
+            const data = await authService.register(registerData);
+            thunkAPI.dispatch(setSuccessMessage("Sign up successfully!"));
+        } catch (err) {
+            const message = err.response.data.content;
+            thunkAPI.dispatch(setErrorMessage(message));
+            return thunkAPI.rejectWithValue();
+        }
+    }
+);
+export const logout = createAction("auth/logout", () => {
+    authService.logout();
+    return {
+        payload: {},
+    };
+});
+
+// because the api is not have a function that check validatious of accessToken
+// so if accessToken is exist, the login state of user is setted to true
+let initialState = {};
+const setupInitialState = () => {
+    const localUser = localStoreService.getUserLocal();
+    let isLoggedIn = false;
+    if (localUser) {
+        isLoggedIn = true;
+    }
+    initialState = {
+        ...localStoreService.getUserLocal(),
+        isLoggedIn: isLoggedIn,
+        isRegisterred: false,
+        loading: false,
+    };
+};
+setupInitialState();
+const authSlice = createSlice({
+    name: "auth",
+    initialState: initialState,
+    reducers: {
+        logout: (state, action) => {
+            state.accessToken = null;
+            state.userInfo = {};
+            state.isLoggedIn = false;
+            state.isRegisterred = false;
+            state.loading = false;
+        },
+    },
+    extraReducers: {
+        [register.pending]: (state, action) => {
+            state.loading = true;
+            state.isLoggedIn = false;
+        },
+        [register.fulfilled]: (state, action) => {
+            state.isLoggedIn = false;
+            state.isRegisterred = true;
+
+            state.loading = false;
+        },
+        [register.rejected]: (state, action) => {
+            state.isLoggedIn = false;
+            state.isRegisterred = false;
+            state.loading = false;
+        },
+        [login.pending]: (state, action) => {
+            state.loading = true;
+        },
+        [login.fulfilled]: (state, action) => {
+            const { accessToken, ...info } = action.payload.user;
+
+            state.accessToken = accessToken;
+            state.userInfo = info;
+            state.isLoggedIn = true;
+            state.loading = false;
+        },
+        [login.rejected]: (state, action) => {
+            state.accessToken = null;
+            state.userInfo = {};
+            state.isLoggedIn = false;
+            state.loading = false;
+        },
+    },
+});
+const { reducer } = authSlice;
+export default reducer;
