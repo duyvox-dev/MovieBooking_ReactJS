@@ -1,30 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
-import { Form, Input, Button, Checkbox, message } from "antd";
-import { userService } from "../../../service/userSerivce";
-import { localStoreService } from "../../../service/localStoreService";
-export default function SignInForm() {
-    const navigate = useNavigate();
+import { Form, Input, Button, Checkbox } from "antd";
+export default function LoginForm({ handleLogin }) {
     const onFinish = (values) => {
-        console.log("Success:", values);
-        userService
-            .login(values)
-            .then((res) => {
-                message.success("Login successfully");
-                localStoreService.setUserLocal(res.data.content);
-                setTimeout(() => {
-                    navigate("/", { replace: true });
-                }, 2000);
-            })
-            .catch((err) => {
-                message.error("Login fail");
-            });
+        handleLogin(values);
     };
 
-    const onFinishFailed = (errorInfo) => {
-        console.log("Failed:", errorInfo);
-    };
+    const onFinishFailed = (errorInfo) => {};
 
     return (
         <Form
