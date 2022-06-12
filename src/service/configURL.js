@@ -1,3 +1,0 @@
-export const BASE_URL = "https://movienew.cybersoft.edu.vn/";
-export const TOKEN_CYBERSOFT =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyMSIsIkhldEhhblN0cmluZyI6IjEzLzEyLzIwMjIiLCJIZXRIYW5UaW1lIjoiMTY3MDg4OTYwMDAwMCIsIm5iZiI6MTY0MTkyMDQwMCwiZXhwIjoxNjcxMDM3MjAwfQ.bmkH3ZTAY_imW1WGWQrt5UXILbKPSLre4odX6sUKnbU";
