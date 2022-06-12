@@ -1,20 +1,21 @@
 import HomePage from "../pages/HomePage/HomePage";
-import SignInPage from "../pages/SignInPage/SignInPage";
+import LoginPage from "../pages/LoginPage/LoginPage";
 import NotFound from "../pages/NotFound/NotFound";
-import SignUpPage from "../pages/SignUpPage/SignUpPage";
+import RegisterPage from "../pages/RegisterPage/RegisterPage";
+import LayoutTheme from "../HOC/layout/LayoutTheme";
 export const userRoutes = [
     {
         path: "/",
-        component: <HomePage />,
+        component: <LayoutTheme Component={HomePage} />,
         exact: true,
     },
     {
-        path: "/sign-in",
-        component: <SignInPage />,
+        path: "/login",
+        component: <LoginPage />,
     },
     {
-        path: "/sign-up",
-        component: <SignUpPage />,
+        path: "/register",
+        component: <RegisterPage />,
     },
     {
         path: "*",
