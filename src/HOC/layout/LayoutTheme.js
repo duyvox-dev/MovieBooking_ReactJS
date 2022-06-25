@@ -4,7 +4,9 @@ export default function LayoutTheme({ Component }) {
     return (
         <div>
             <HeaderTemplate />
-            <Component />
+            <div>
+                <Component />
+            </div>
         </div>
     );
 }

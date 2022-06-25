@@ -37,7 +37,36 @@ export const logout = createAction("auth/logout", () => {
         payload: {},
     };
 });
+// export const getUserInfo = createAsyncThunk(
+//     "auth/getUserInfo",
+//     async (thunkAPI) => {
+//         try {
+//             const userLocal = localStoreService.getUserLocal();
+//             if (userLocal) {
+//                 const res = await authService.getUserInfo(
+//                     userLocal.accessToken
+//                 );
+//                 const userInforamtion = res.data.content;
+//                 return {
+//                     userInfo: {
+//                         taiKhoan: userInforamtion.taiKhoan,
+//                         taiKhoan: userInforamtion.taiKhoan,
+//                         taiKhoan: userInforamtion.taiKhoan,
+//                     },
+//                     accessToken: userLocal.accessToken,
 
+//                 };
+//             } else {
+//                 return null;
+//             }
+//         } catch (err) {
+//             const message = err.response.data.content;
+//             thunkAPI.dispatch(setErrorMessage(message));
+//             thunkAPI.dispatch(logout());
+//             return thunkAPI.rejectWithValue();
+//         }
+//     }
+// );
 // because the api is not have a function that check validatious of accessToken
 // so if accessToken is exist, the login state of user is setted to true
 let initialState = {};
@@ -58,6 +87,7 @@ setupInitialState();
 const authSlice = createSlice({
     name: "auth",
     initialState: initialState,
+
     reducers: {
         logout: (state, action) => {
             state.accessToken = null;
@@ -100,6 +130,23 @@ const authSlice = createSlice({
             state.isLoggedIn = false;
             state.loading = false;
         },
+        // [getUserInfo.pending]: (state, action) => {
+        //     state.loading = true;
+        // },
+        // [getUserInfo.fulfilled]: (state, action) => {
+        //     const { accessToken, ...info } = action.payload.user;
+
+        //     state.accessToken = accessToken;
+        //     state.userInfo = info;
+        //     state.isLoggedIn = true;
+        //     state.loading = false;
+        // },
+        // [getUserInfo.rejected]: (state, action) => {
+        //     state.accessToken = null;
+        //     state.userInfo = {};
+        //     state.isLoggedIn = false;
+        //     state.loading = false;
+        // },
     },
 });
 const { reducer } = authSlice;

@@ -24,4 +24,12 @@ export const authService = {
     logout: () => {
         localStoreService.removeUserLocal();
     },
+    getUserInfo: (accessToken) => {
+        const config = getRequestConfig(accessToken);
+        return axios({
+            method: "POST",
+            url: `${BASE_URL}/api/QuanLyNguoiDung/ThongTinTaiKhoan`,
+            ...config,
+        });
+    },
 };

@@ -6,7 +6,9 @@ import { showMessage } from "../../utils/messageUtils";
 import { register } from "../../redux/authReducer";
 import Spinner from "../../components/Spinner";
 import { clearMessage } from "../../redux/messageReducer";
-
+import Lottie from "lottie-react";
+import bgLoginAnimation from "../../assets/bg-login.json";
+import Logo from "../../components/HeaderTemplate/Logo";
 export default function RegisterPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -35,11 +37,17 @@ export default function RegisterPage() {
         dispatch(register(registerData));
     };
     return (
-        <div>
-            <div className="container">
+        <div className="w-full min-h-screen h-full">
+            <div className="container max-w-[900px] mx-auto py-10   flex gap-10 items-center">
                 {loading && <Spinner size="large" />}
+                <div className="w-1/2">
+                    <Lottie animationData={bgLoginAnimation} />;
+                </div>
+                <div className="w-1/2">
+                    <div className="flex justify-center mb-5">
+                        <Logo></Logo>
+                    </div>
 
-                <div className="mx-auto w-[500px]">
                     <RegisterForm handleRegister={handleRegister} />
                 </div>
             </div>

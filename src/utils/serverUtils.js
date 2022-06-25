@@ -6,8 +6,8 @@ export const getRequestConfig = (accessToken) => {
             TokenCybersoft: TOKEN_CYBERSOFT,
         },
     };
-    // if (accessToken) {
-    //     config.headers.Authorization = `bearer ${accessToken}`;
-    // }
+    if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+    }
     return config;
 };

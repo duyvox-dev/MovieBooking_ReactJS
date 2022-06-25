@@ -3,6 +3,8 @@ import LoginPage from "../pages/LoginPage/LoginPage";
 import NotFound from "../pages/NotFound/NotFound";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import LayoutTheme from "../HOC/layout/LayoutTheme";
+import MovieDetailPage from "../pages/MovieDetailPage/MovieDetailPage";
+import PurchasePage from "../pages/PurchasePage/PurchasePage";
 export const userRoutes = [
     {
         path: "/",
@@ -18,7 +20,16 @@ export const userRoutes = [
         component: <RegisterPage />,
     },
     {
+        path: "/detail/:id",
+        component: <LayoutTheme Component={MovieDetailPage} />,
+    },
+    {
+        path: "/purchase/:id",
+        component: <LayoutTheme Component={PurchasePage} />,
+    },
+
+    {
         path: "*",
-        component: <NotFound />,
+        component: <LayoutTheme Component={NotFound} />,
     },
 ];

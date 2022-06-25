@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { userRoutes } from "./routes/userRoutes";
 function App() {
     return (
-        <div>
+        <div className=" bg-zinc-900 relative">
             <BrowserRouter>
                 <Routes>
                     {userRoutes.map((route, index) => {
