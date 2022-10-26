@@ -2,6 +2,10 @@
 
 ### **A full-featured movie ticket booking app, built with ReactJS**
 
+## Quick demo
+
+![MovieTime Demo](./assets/quick_demo.mp4)
+
 ## Description
 
 -   **MovieTime** is an opportunity for me to enhance my programming skills and experiment with some new technologies that I've learnt recently (e.g. RESTful API, TailwindCss and ReduxToolkit) as well.
