@@ -1,6 +1,10 @@
-# ![MovieTime Logo](./assets/logo.png) **MovieTime**
+# **MovieTime**
 
 ### **A full-featured movie ticket booking app, built with ReactJS**
+
+## Quick demo
+
+![MovieTime Demo](./assets/quick_demo.mp4)
 
 ## Description
 
