@@ -4,7 +4,10 @@
 
 ## Quick demo
 
-![MovieTime Demo](./assets/quick_demo.mp4)
+https://user-images.githubusercontent.com/40175420/197925270-e5e69ead-9197-4045-8792-4138ccdfb4ac.mp4
+
+## Screenshots
+You can see more screenshots in assets/screenshots
 
 ## Description
 
