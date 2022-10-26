@@ -1,65 +1,36 @@
 // this page will load the detail description, trailer and scheduleTime of movie
 import moment from "moment";
 import React, { useEffect } from "react";
-import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { movieService } from "../../service/movieService";
 import { NavLink } from "react-router-dom";
 import Spinner from "../../components/Spinner";
 import { FaYoutube } from "react-icons/fa";
 import { Rate } from "antd";
 import { lowerCaselizeString } from "../../utils/stringFormatUtils";
 import ShowTime from "./ShowTime";
-// import TrailerModal from "../../components/TrailerModal/TrailerModal";
 import TrailerModal from "../../components/Modal/TrailerModal";
 import useModal from "../../hook/useModal";
-import {
-    animateScroll as scroll,
-    scroller,
-    Element,
-    Button,
-} from "react-scroll";
+import { isEmptyObject } from "../../utils/objectUtils";
+import { animateScroll as scroll, scroller, Element } from "react-scroll";
+import { useDispatch, useSelector } from "react-redux";
+import { getMovieDetail } from "../../redux/movieReducer";
 
 export default function MovieDetailPage() {
     const { isVisibleModal, toggleModal } = useModal();
     const { id } = useParams();
-    const [movie, setMovie] = useState();
-    const [showTimeList, setShowTimeList] = useState();
-    const [loading, setLoading] = useState(false);
-    let rawData = null;
+
+    const dispatch = useDispatch();
+    const { loading, movieDetail } = useSelector((state) => state.movie);
+
     useEffect(() => {
-        setLoading(true);
-        const processRawData = () => {
-            const movieData = {
-                maPhim: rawData?.maPhim,
-                tenPhim: rawData?.tenPhim,
-                hinhAnh: rawData?.hinhAnh,
-                trailer: rawData?.trailer,
-                moTa: rawData?.moTa,
-                ngayKhoiChieu: rawData?.ngayKhoiChieu,
-                danhGia: rawData?.danhGia,
-                sapChieu: rawData?.sapChieu,
-                dangChieu: rawData?.dangChieu,
-            };
-            setMovie(movieData);
-            setShowTimeList(rawData.heThongRapChieu);
-        };
-        movieService
-            .getMovieDetailAndShowTime(id)
-            .then((res) => {
-                rawData = res.data.content;
-                processRawData();
-                setLoading(false);
-            })
-            .catch((err) => {
-                console.log(err);
-                setLoading(false);
-            });
+        dispatch(getMovieDetail(id));
+
         window.scrollTo(0, 0);
     }, []);
     const handleShowTrailer = () => {
         toggleModal();
     };
+
     const scrollTo = (element) => {
         scroller.scrollTo(element, {
             duration: 1500,
@@ -72,17 +43,17 @@ export default function MovieDetailPage() {
         <div>
             <div className="container mx-auto py-10 px-5 min-h-screen">
                 {loading && <Spinner size="large" />}
-                {movie ? (
+                {!isEmptyObject(movieDetail) ? (
                     <div className="">
                         <TrailerModal
-                            src={movie?.trailer}
+                            src={movieDetail.movieInfo.trailer}
                             isOpen={isVisibleModal}
                             onClose={toggleModal}
                         />
                         <div className="flex gap-10 ">
                             <div className="w-1/3">
                                 <img
-                                    src={movie?.hinhAnh}
+                                    src={movieDetail.movieInfo.hinhAnh}
                                     alt=""
                                     className="block w-full rounded-lg h-[500px]"
                                 />
@@ -90,7 +61,9 @@ export default function MovieDetailPage() {
                             <div className="w-2/3 flex flex-col">
                                 <div className="flex-1">
                                     <h1 className="text-4xl text-yellow-500 font-bold capitalize">
-                                        {lowerCaselizeString(movie?.tenPhim)}
+                                        {lowerCaselizeString(
+                                            movieDetail.movieInfo.tenPhim
+                                        )}
                                     </h1>
                                     <p className="text-slate-200 text-xl font-semibold">
                                         <span className="text-slate-300 ">
@@ -98,12 +71,13 @@ export default function MovieDetailPage() {
                                         </span>
                                         <span className="text-yellow-500 ml-5 text-2xl font-bold">
                                             {moment(
-                                                movie?.ngayKhoiChieu
+                                                movieDetail?.movieInfo
+                                                    ?.ngayKhoiChieu
                                             ).format("DD MMM YYYY")}
                                         </span>
                                     </p>
                                     <p className="text-slate-300 text-lg italic">
-                                        {movie?.moTa}
+                                        {movieDetail.movieInfo.moTa}
                                     </p>
                                     <div className="flex gap-2 items-center text-slate-300 text-xl font-semibold">
                                         <span className="">Đánh giá:</span>
@@ -111,10 +85,16 @@ export default function MovieDetailPage() {
                                             <Rate
                                                 disabled
                                                 allowHalf
-                                                defaultValue={movie.danhGia / 2}
+                                                defaultValue={
+                                                    movieDetail?.movieInfo
+                                                        ?.danhGia / 2
+                                                }
                                             />
                                             <span className="ml-2">
-                                                ({movie.danhGia / 2} / 5)
+                                                (
+                                                {movieDetail.movieInfo.danhGia /
+                                                    2}
+                                                / 5)
                                             </span>
                                         </div>
                                     </div>
@@ -142,7 +122,7 @@ export default function MovieDetailPage() {
                             </div>
                         </div>
                         <Element name="showTimeContainer" className="py-10">
-                            <ShowTime showTimeList={showTimeList} />
+                            <ShowTime showTimeList={movieDetail.showTime} />
                         </Element>
                     </div>
                 ) : (

@@ -20,7 +20,7 @@ export default function UserNav() {
 
     const menu = (
         <Menu onClick={onClickUserDropdown}>
-            <Menu.Item key="account">Account</Menu.Item>
+            <Menu.Item key="account">Tài khoản</Menu.Item>
             <Menu.Item key="logout">Đăng xuất</Menu.Item>
         </Menu>
     );

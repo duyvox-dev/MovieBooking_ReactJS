@@ -77,7 +77,7 @@ const setupInitialState = () => {
         isLoggedIn = true;
     }
     initialState = {
-        ...localStoreService.getUserLocal(),
+        ...localUser,
         isLoggedIn: isLoggedIn,
         isRegisterred: false,
         loading: false,

@@ -17,7 +17,7 @@ export default function SeatItem({ type, bookSeat, seatInfo }) {
         <div
             className={seatStyle}
             key={seatInfo?.maGhe}
-            onClick={() => bookSeat(seatInfo?.tenGhe)}
+            onClick={() => bookSeat(seatInfo?.maGhe)}
         >
             <span>{type == "reserved" ? "x" : seatInfo?.tenGhe}</span>
         </div>

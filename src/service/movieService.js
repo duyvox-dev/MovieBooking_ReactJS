@@ -21,15 +21,7 @@ export const movieService = {
             ...config,
         });
     },
-    getMovieDetail: (movieCode) => {
-        const config = getRequestConfig();
 
-        return axios({
-            method: "GET",
-            url: `${BASE_URL}/api/QuanLyPhim/LayThongTinPhim?MaPhim=${movieCode}`,
-            ...config,
-        });
-    },
     getMovieDetailAndShowTime: (movieCode) => {
         const config = getRequestConfig();
         return axios({
